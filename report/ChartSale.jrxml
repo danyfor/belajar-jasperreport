@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ChartSale" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT a.bpno, bp.bpname, a.total
+FROM (
+SELECT bpno, SUM(total) AS total FROM sale GROUP BY bpno ORDER BY SUM(total) DESC LIMIT 5
+) a JOIN bp ON a.bpno=bp.bpno
+ORDER BY total DESC]]>
+	</queryString>
+	<field name="bpno" class="java.lang.String"/>
+	<field name="bpname" class="java.lang.String"/>
+	<field name="total" class="java.math.BigDecimal"/>
+	<title>
+		<band height="400" splitType="Stretch">
+			<pie3DChart>
+				<chart evaluationTime="Report">
+					<reportElement x="0" y="20" width="555" height="380"/>
+					<box leftPadding="0"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<keyExpression><![CDATA[$F{bpno}]]></keyExpression>
+					<valueExpression><![CDATA[$F{total}]]></valueExpression>
+					<labelExpression><![CDATA[$F{bpname}]]></labelExpression>
+					<sectionHyperlink hyperlinkType="RemoteAnchor">
+						<hyperlinkTooltipExpression><![CDATA["Tampilkan data penjualan"]]></hyperlinkTooltipExpression>
+						<hyperlinkParameter name="BP_NO">
+							<hyperlinkParameterExpression><![CDATA[$F{bpno}]]></hyperlinkParameterExpression>
+						</hyperlinkParameter>
+						<hyperlinkParameter name="BP_NAME">
+							<hyperlinkParameterExpression><![CDATA[$F{bpname}]]></hyperlinkParameterExpression>
+						</hyperlinkParameter>
+					</sectionHyperlink>
+				</pieDataset>
+				<pie3DPlot>
+					<plot/>
+					<itemLabel/>
+				</pie3DPlot>
+			</pie3DChart>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Grafik Penjualan 5 Besar]]></text>
+			</staticText>
+		</band>
+	</title>
+</jasperReport>

@@ -5,6 +5,10 @@
 build
 dist
 private
+nbactions.xml
 
 # maven
 target
+
+# jasper
+*.jasper
