@@ -1,0 +1,10 @@
+# default
+*~
+
+# netbeans
+build
+dist
+private
+
+# maven
+target
